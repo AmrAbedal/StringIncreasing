@@ -15,15 +15,18 @@ let AValue: UInt32 = 64
 
 func increase(text: String,by number: UInt8) -> String {
     text.reduce("", {result , character in
-        let x = character.unicodeScalars
-        let value = x[x.startIndex].value + UInt32(number)
+        if character.isASCII {
+        let unicodeScalars = character.unicodeScalars
+        let value = unicodeScalars[unicodeScalars.startIndex].value + UInt32(number)
         let number = (value) % (character.isLowercase ? zValue : ZVlue) + (character.isLowercase ? aValue : AValue)
         let u = UnicodeScalar(UInt8(number))
-        return result + "\(u)"
+            return result + "\(u)" } else {
+           return result + "\(character)"
+        }
     })
 }
 
-let text = "aBc"
+let text = "a😃B😎c"
 print(increase(text: text, by: 26))
 //Mark: - disadvantage of using the ASCII value of the letters
-// ASCII is that it only has 94 printable characters — that’s enough for the 26 letters of the basic Latin alphabet in upper and lower case, so we can't use this function with other languages or an emojies .
+// ASCII is that it only has 94 printable characters — that’s enough for the 26 letters of the basic Latin alphabet in upper and lower case, so we can't use this it with other languages or an emojies .
